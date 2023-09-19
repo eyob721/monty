@@ -30,7 +30,7 @@ int main(int ac, char **av)
 		_printf("%s\n", file_buf);
 		_printf("---------------------------------------------------------\n");
 	}
-	free(file_buf);
 	close(fd);
+	free(file_buf);
 	return (EXIT_SUCCESS);
 }
