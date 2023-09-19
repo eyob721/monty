@@ -10,6 +10,9 @@
 #include <stdarg.h>
 #include <unistd.h>
 
+/* CUSTOM HEADERS */
+#include "lib.h"
+
 /* FILE I/O CONSTANTS  */
 #define OPEN_FILE_ERR -1
 
