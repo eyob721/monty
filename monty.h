@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 /* CUSTOM HEADERS */
 #include "lib.h"
@@ -16,8 +17,12 @@
 /* FILE I/O CONSTANTS  */
 #define OPEN_FILE_ERR -1
 
+/* READ SYSTEM CALL CONSTANTS */
+#define READ_EOF 0
+#define READ_ERR -1
+
 /* BUFFER CONSTANTS */
-#define LINE_BUFF_SIZE 128
+#define BUF_SIZE 1024
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTUTES                                   */
@@ -53,4 +58,10 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/* ------------------------------------------------------------------------- */
+/*                 MONTY - GENERAL UTILITIES                                 */
+/* ------------------------------------------------------------------------- */
+int read_file(int fd, char **buf, int *size);
+
+/* ------------------------------------------------------------------------- */
 #endif
