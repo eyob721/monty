@@ -2,7 +2,7 @@
 #define MONTY_H
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - HEADERS, GLOBALS, AND CONSTANTS                   */
+/*                 MONTY - HEADERS, GLOBAL, AND CONSTANTS                   */
 /* ------------------------------------------------------------------------- */
 /* STANDARD HEADERS */
 #include <stdio.h>
@@ -22,10 +22,10 @@
 #define READ_ERR -1
 
 /* BUFFER CONSTANTS */
-#define BUF_SIZE 1024
+#define BUF_SIZE 512
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - DATA STRUCTUTES                                   */
+/*                 MONTY - DATA STRUCTURES                                   */
 /* ------------------------------------------------------------------------- */
 
 /**
@@ -57,6 +57,25 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/**
+ * struct queue_s - doubly linked list representation of a queue of
+ *                  opcodes and their arguments
+ * @opcode: the opcode
+ * @oparg: argument of the opcode
+ * @prev: pointer to the previous node in the queue
+ * @next: pointer to the next node in the queue
+ *
+ * Description: this data structure is used to queue the instructions in each
+ * line of the file
+ */
+typedef struct queue_s
+{
+	char *opcode;
+	char *oparg;
+	struct queue_s *prev;
+	struct queue_s *next;
+} queue_t;
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - GENERAL UTILITIES                                 */
