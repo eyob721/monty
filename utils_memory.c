@@ -21,31 +21,19 @@ void free_stack(stack_t *top)
 
 /**
  * free_queue - frees a queue_t doubly linked list.
+ * @front: pointer to the front of the queue
  *
  * Return: void
  */
-void free_queue(void)
+void free_queue(queue_t *front)
 {
 	queue_t *tmp;
 
-	while (monty.front != NULL)
+	while (front != NULL)
 	{
-		tmp = monty.front;
-		monty.front = monty.front->next;
+		tmp = front;
+		front = front->next;
 		tmp->prev = tmp->next = NULL;
 		free(tmp);
 	}
 }
-
-/**
- * free_monty - frees the monty data structure
- *
- * Return: void
- */
-void free_monty(void)
-{
-	close(monty.fd);
-	free_queue();
-	free(monty.file_buf);
-}
-

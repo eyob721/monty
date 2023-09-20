@@ -1,6 +1,6 @@
 #include "monty.h"
 
-monty_t monty;
+monty_t monty = {NULL, EXIT_SUCCESS};
 
 /**
  * main - the monty program
@@ -17,8 +17,10 @@ monty_t monty;
  */
 int main(int ac, char **av)
 {
-	int bytes_read;
+	int fd, buf_size = 0, bytes_read;
+	char *file_buf = NULL;
 	stack_t *top = NULL;
+	queue_t *front = NULL, *rear = NULL;
 	void (*execute_opcode)(stack_t **top, unsigned int line_number);
 
 	if (ac != 2)
@@ -26,33 +28,34 @@ int main(int ac, char **av)
 		_dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		return (EXIT_FAILURE);
 	}
-	monty.fd = open(av[1], O_RDONLY);
-	if (monty.fd == OPEN_FILE_ERR)
+	fd = open(av[1], O_RDONLY);
+	if (fd == OPEN_FILE_ERR)
 	{
 		_dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
 		return (EXIT_FAILURE);
 	}
-	bytes_read = read_file(monty.fd, &monty.file_buf, &monty.buf_size);
+	bytes_read = read_file(fd, &file_buf, &buf_size);
 	if (bytes_read != READ_EOF && bytes_read != READ_ERR)
 	{
-		build_queue();
-		while (monty.front != NULL)
+		build_queue(&front, &rear, file_buf);
+		while (front != NULL && monty.exit_status == EXIT_SUCCESS)
 		{
-			execute_opcode = get_opcode_function(monty.front->opcode);
+			monty.node = dequeue(&front, &rear);
+			execute_opcode = get_opcode_function(monty.node->opcode);
 			if (execute_opcode == NULL)
 			{
 				_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
-						monty.front->line, monty.front->opcode);
-				free_monty();
-				return (EXIT_FAILURE);
+						monty.node->line, monty.node->opcode);
+				monty.exit_status = EXIT_FAILURE;
+				free(monty.node); /* Free the executed queue node */
+				break;
 			}
-			execute_opcode(&top, monty.front->line);
-			free(dequeue()); /* Free the executed queue node */
+			execute_opcode(&top, monty.node->line);
+			free(monty.node); /* Free the executed queue node */
 		}
 	}
-	free_stack(top);
-	free_monty();
-	return (EXIT_SUCCESS);
+	close(fd), free_stack(top), free(file_buf);
+	return (monty.exit_status);
 }
 
 /**

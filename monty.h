@@ -83,22 +83,16 @@ typedef struct queue_s
 /**
  * struct monty_s - a data structure used to hold necessary data for
  *                  opcode handlers, and memory cleanup.
- * @fd: file discriptor
- * @front: pointer to the front of the queue
- * @rear: pointer to the rear of the queue
- * @file_buf: pointer to the file buffer
- * @buf_size: size of the file buffer
+ * @node: pointer to a node on the queue
+ * @exit_status: used to hold the exit status of the monty program
  *
  * Description: this data structure is used to share data among the
  *              main function and other functions.
  */
 typedef struct monty_s
 {
-	int fd;
-	queue_t *front;
-	queue_t *rear;
-	char *file_buf;
-	int buf_size;
+	queue_t *node;
+	int exit_status;
 } monty_t;
 
 /* ------------------------------------------------------------------------- */
@@ -112,19 +106,17 @@ int is_integer(char *str);
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - QUEUE                                       */
 /* ------------------------------------------------------------------------- */
-void build_queue(void);
-queue_t *enqueue(char *opcode, char *oparg, unsigned int lno);
-queue_t *dequeue(void);
-void print_node(queue_t *node);
-void print_queue(void);
+void build_queue(queue_t **front, queue_t **rear, char *file_buf);
+queue_t *enqueue(queue_t **front, queue_t **rear,
+		char *opcode, char *oparg, unsigned int line_no);
+queue_t *dequeue(queue_t **front, queue_t **rear);
 
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - MEMORY                                      */
 /* ------------------------------------------------------------------------- */
 void free_stack(stack_t *top);
-void free_queue(void);
-void free_monty(void);
+void free_queue(queue_t *front);
 
 
 /* ------------------------------------------------------------------------- */
