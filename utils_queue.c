@@ -2,13 +2,10 @@
 
 /**
  * build_queue - builds a queue of instructions from the file buffer.
- * @front: double pointer to the front of the queue
- * @rear: double pointer to the rear of the queue
- * @file_buf: pointer to the file buffer
  *
  * Return: void
  */
-void build_queue()
+void build_queue(void)
 {
 	int line_no = 1;
 	char *line = NULL, *opcode = NULL, *oparg = NULL;
@@ -29,15 +26,13 @@ void build_queue()
 
 /**
  * enqueue - a function that inserts a new node in the queue, from the rear
- * @front: double pointer to the front of the queue
- * @rear: double pointer to the rear of the queue
  * @opcode: the opcode of the new node
  * @oparg: the oparg of the new node
- * @line: the line number of the opecode instruction
+ * @line_no: the line number of the opecode instruction
  *
  * Return: pointer to the new node, or NULL if failure occurs
  */
-queue_t *enqueue(char *opcode, char *oparg, unsigned int lno)
+queue_t *enqueue(char *opcode, char *oparg, unsigned int line_no)
 {
 	queue_t *new_node = NULL;
 
@@ -52,7 +47,7 @@ queue_t *enqueue(char *opcode, char *oparg, unsigned int lno)
 	/* Build the new node */
 	new_node->opcode = opcode;
 	new_node->oparg = oparg;
-	new_node->line = lno;
+	new_node->line = line_no;
 	new_node->prev = monty.rear;
 	new_node->next = NULL;
 
@@ -74,7 +69,7 @@ queue_t *enqueue(char *opcode, char *oparg, unsigned int lno)
  *              rear pointer must become NULL. This will make the queue empty.
  *              The front node already is assigned NULL, when advance it.
  */
-queue_t *dequeue()
+queue_t *dequeue(void)
 {
 	queue_t *tmp = NULL;
 
@@ -105,11 +100,10 @@ void print_node(queue_t *node)
 
 /**
  * print_queue - prints the opcodes and opargs in a queue
- * @front: points to the front of the queue
  *
  * Return: void
  */
-void print_queue()
+void print_queue(void)
 {
 	while (monty.front != NULL)
 	{

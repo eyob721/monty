@@ -1,7 +1,4 @@
-#include "lib.h"
 #include "monty.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 monty_t monty;
 
@@ -11,10 +8,16 @@ monty_t monty;
  * @av: argument vector
  *
  * Return: 0 on success, or 1 on error
+ * Description:
+ *     - This is how the program uses the stack and queue data structures
+ *     - The stack is used to execute opcode instructions.
+ *     - The queue is used to arrange the instructions that are found in the
+ *       monty byte code file to form, a queue.
+ *     - So the program executes each opcodes in the queue on the stack.
  */
 int main(int ac, char **av)
 {
-	int bytes_read = READ_EOF, exit_code = EXIT_SUCCESS;
+	int bytes_read;
 	stack_t *top = NULL;
 	void (*execute_opcode)(stack_t **top, unsigned int line_number);
 
@@ -40,15 +43,15 @@ int main(int ac, char **av)
 			{
 				_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
 						monty.front->line, monty.front->opcode);
-				exit_code = EXIT_FAILURE;
-				break;
+				free_monty();
+				return (EXIT_FAILURE);
 			}
 			execute_opcode(&top, monty.front->line);
-			free(dequeue());
+			free(dequeue()); /* Free the executed queue node */
 		}
 	}
 	free_monty();
-	return (exit_code);
+	return (EXIT_SUCCESS);
 }
 
 /**

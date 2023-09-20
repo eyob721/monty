@@ -87,6 +87,7 @@ typedef struct queue_s
  * @front: pointer to the front of the queue
  * @rear: pointer to the rear of the queue
  * @file_buf: pointer to the file buffer
+ * @buf_size: size of the file buffer
  *
  * Description: this data structure is used to share data among the
  *              main function and other functions.
@@ -105,23 +106,25 @@ typedef struct monty_s
 /* ------------------------------------------------------------------------- */
 int read_file(int fd, char **buf, int *size);
 char *get_file_line(char *start, char **save_ptr);
+int is_integer(char *str);
 
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - QUEUE                                       */
 /* ------------------------------------------------------------------------- */
-void build_queue();
+void build_queue(void);
 queue_t *enqueue(char *opcode, char *oparg, unsigned int lno);
-queue_t *dequeue();
+queue_t *dequeue(void);
 void print_node(queue_t *node);
-void print_queue();
+void print_queue(void);
 
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - MEMORY                                      */
 /* ------------------------------------------------------------------------- */
-void free_queue();
-void free_monty();
+void free_stack(stack_t *top);
+void free_queue(void);
+void free_monty(void);
 
 
 /* ------------------------------------------------------------------------- */

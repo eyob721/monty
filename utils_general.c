@@ -79,3 +79,23 @@ char *get_file_line(char *start, char **save_ptr)
 	return (line);
 }
 
+/**
+ * is_integer - a function that check if a given string is an integer string
+ * @str: a string
+ *
+ * Return: 1 if the string is an integer, 0 otherwise
+ */
+int is_integer(char *str)
+{
+	int i = 0;
+
+	if (str == NULL)
+		return (0);
+	while (str[i] != '\0')
+	{
+		if (!_isdigit(str[i]))
+			return (0);
+		++i;
+	}
+	return (1);
+}
