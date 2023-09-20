@@ -2,7 +2,7 @@
 #define MONTY_H
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - HEADERS, GLOBAL, AND CONSTANTS                    */
+/*                 MONTY - HEADERS, GLOBAL, AND MACROS                       */
 /* ------------------------------------------------------------------------- */
 /* STANDARD HEADERS */
 #include <stdio.h>
@@ -22,7 +22,7 @@
 #define READ_ERR -1
 
 /* BUFFER CONSTANTS */
-#define BUF_SIZE 512
+#define FILE_BUF_SIZE 512
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */
@@ -63,6 +63,7 @@ typedef struct instruction_s
  *                  opcodes and their arguments
  * @opcode: the opcode
  * @oparg: argument of the opcode
+ * @line: the line number of the opcode instruction
  * @prev: pointer to the previous node in the queue
  * @next: pointer to the next node in the queue
  *
@@ -73,6 +74,7 @@ typedef struct queue_s
 {
 	char *opcode;
 	char *oparg;
+	int line;
 	struct queue_s *prev;
 	struct queue_s *next;
 } queue_t;
@@ -87,10 +89,11 @@ int read_file(int fd, char **buf, int *size);
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - QUEUE                                       */
 /* ------------------------------------------------------------------------- */
-queue_t *enqueue(queue_t **front, queue_t **rear, char *opcode, char *oparg);
+queue_t *enqueue(queue_t **front, queue_t **rear,
+		char *opcode, char *oparg, int line);
 queue_t *dequeue(queue_t **front, queue_t **rear);
-void print_node(queue_t *node, int *line);
 void print_queue(queue_t *front);
+void print_node(queue_t *node);
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - MEMORY                                      */
@@ -102,6 +105,7 @@ void free_queue(queue_t *front);
 /*                 MONTY UTILS - MAIN                                        */
 /* ------------------------------------------------------------------------- */
 void build_queue(queue_t **front, queue_t **rear, char *file_buf);
+char *get_file_line(char *start, char **save_ptr);
 
 /* ------------------------------------------------------------------------- */
 #endif

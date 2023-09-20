@@ -10,7 +10,7 @@
  */
 int main(int ac, char **av)
 {
-	int fd, bytes_read = READ_EOF, buf_size = 0, line = 1;
+	int fd, bytes_read = READ_EOF, buf_size = 0;
 	char *file_buf = NULL;
 	queue_t *front = NULL, *rear = NULL, *node = NULL;
 
@@ -32,8 +32,7 @@ int main(int ac, char **av)
 		node = dequeue(&front, &rear);
 		while (node != NULL)
 		{
-			print_node(node, &line);
-			++line;
+			print_node(node);
 			free(node);
 			node = dequeue(&front, &rear);
 		}
@@ -54,17 +53,53 @@ int main(int ac, char **av)
  */
 void build_queue(queue_t **front, queue_t **rear, char *file_buf)
 {
+	int line_no = 1;
 	char *line = NULL, *opcode = NULL, *oparg = NULL;
 	char *line_save = NULL, *op_save = NULL;
 
 	if (file_buf == NULL)
 		return;
-	line = _strtok_r(file_buf, "\n", &line_save);
+	line = get_file_line(file_buf, &line_save);
 	while (line != NULL)
 	{
 		opcode = _strtok_r(line, " ", &op_save);
 		oparg = _strtok_r(NULL, " ", &op_save);
-		enqueue(front, rear, opcode, oparg);
-		line = _strtok_r(NULL, "\n", &line_save);
+		enqueue(front, rear, opcode, oparg, line_no);
+		line = get_file_line(NULL, &line_save);
+		++line_no;
 	}
+}
+
+/**
+ * get_file_line - a function that gets the next line token from a file buffer
+ * @start: starting point of line token
+ * @save_ptr: a double pointer to save the start of the next token
+ *
+ * Return: a line from the file buffer
+ * Description:
+ *     - In the case where there is an empty line, then the function
+ *       returns an empty token.
+ *     - The starting point for the next token (i.e. save_ptr), is determined
+ *       in the _strtok_r function.
+ */
+char *get_file_line(char *start, char **save_ptr)
+{
+	char *line = NULL;
+
+	if (save_ptr == NULL || (start == NULL && *save_ptr == NULL))
+		return (NULL);
+
+	/* Determine starting point */
+	start = start != NULL ? start : *save_ptr;
+
+	/* In case of an empty line, return an empty string */
+	if (*start == '\n')
+	{
+		*save_ptr = start + 1;
+		*start = '\0';
+		return (start);
+	}
+
+	line = _strtok_r(start, "\n", save_ptr);
+	return (line);
 }

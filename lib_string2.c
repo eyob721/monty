@@ -125,28 +125,24 @@ char *_strpbrk(char *s, char *accept)
  */
 char *_strtok_r(char *str, char *delim, char **save_ptr)
 {
-	char *start = NULL;
+	char *start, *end;
 
 	if (delim == NULL || save_ptr == NULL || (str == NULL && *save_ptr == NULL))
 		return (NULL);
 	/* Determine starting point */
-	if (str != NULL)
-		start = str;
-	else
-		start = *save_ptr;
+	start = str != NULL ? str : *save_ptr;
 	/* Skip all delimiter charater, find the current token */
 	while (*start != '\0' && _strchr(delim, *start) != NULL)
 		++start;
 	/* If there are no more tokens, return NULL */
 	if (*start == '\0')
 		return (NULL);
-	/* Find the next token starting point */
-	*save_ptr = _strpbrk(start, delim);
+	/* Find the end of the current token */
+	end = _strpbrk(start, delim);
 	/* null-terminate the current token */
-	if (*save_ptr != NULL)
-	{
-		**save_ptr = '\0';
-		++(*save_ptr);
-	}
+	if (end != NULL)
+		*end = '\0';
+	/* Determine next token starting point */
+	*save_ptr = end != NULL ? end + 1 : NULL;
 	return (start);
 }
