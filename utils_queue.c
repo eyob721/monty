@@ -6,10 +6,12 @@
  * @rear: double pointer to the rear of the queue
  * @opcode: the opcode of the new node
  * @oparg: the oparg of the new node
+ * @line: the line number of the opecode instruction
  *
  * Return: pointer to the new node, or NULL if failure occurs
  */
-queue_t *enqueue(queue_t **front, queue_t **rear, char *opcode, char *oparg)
+queue_t *enqueue(queue_t **front, queue_t **rear,
+		char *opcode, char *oparg, int line)
 {
 	queue_t *new_node = NULL;
 
@@ -24,6 +26,7 @@ queue_t *enqueue(queue_t **front, queue_t **rear, char *opcode, char *oparg)
 	/* Build the new node */
 	new_node->opcode = opcode;
 	new_node->oparg = oparg;
+	new_node->line = line;
 	new_node->prev = *rear;
 	new_node->next = NULL;
 
@@ -62,6 +65,7 @@ queue_t *dequeue(queue_t **front, queue_t **rear)
 	tmp->prev = tmp->next = NULL;
 	return (tmp);
 }
+
 /**
  * print_queue - prints the opcodes and opargs in a queue
  * @front: points to the front of the queue
@@ -70,18 +74,23 @@ queue_t *dequeue(queue_t **front, queue_t **rear)
  */
 void print_queue(queue_t *front)
 {
-	int i = 1;
-
 	while (front != NULL)
 	{
-		_printf("[%d] opcode: [%s] oparg: [%s]\n", i++, front->opcode, front->oparg);
+		_printf("line: [%d] opcode: [%s] oparg: [%s]\n",
+				front->line, front->opcode, front->oparg);
 		front = front->next;
 	}
 }
 
-void print_node(queue_t *node, int *line)
+/**
+ * print_node - prints the line number, the opcode and the oparg of a node
+ * @node: pointer to a node in the queue
+ *
+ * Return: void
+ */
+void print_node(queue_t *node)
 {
 	if (node != NULL)
-		_printf("[%d] opcode: [%s] oparg: [%s]\n",
-				*line, node->opcode, node->oparg);
+		_printf("line:[%d] opcode: [%s] oparg: [%s]\n",
+				node->line, node->opcode, node->oparg);
 }
