@@ -10,9 +10,9 @@
  */
 int main(int ac, char **av)
 {
-	int fd, bytes_read = READ_EOF, buf_size = 0;
+	int fd, bytes_read = READ_EOF, buf_size = 0, line = 1;
 	char *file_buf = NULL;
-	queue_t *front = NULL, *rear = NULL;
+	queue_t *front = NULL, *rear = NULL, *node = NULL;
 
 	if (ac != 2)
 	{
@@ -29,9 +29,17 @@ int main(int ac, char **av)
 	if (bytes_read != READ_EOF && bytes_read != READ_ERR)
 	{
 		build_queue(&front, &rear, file_buf);
-		print_queue(front);
+		node = dequeue(&front, &rear);
+		while (node != NULL)
+		{
+			print_node(node, &line);
+			++line;
+			free(node);
+			node = dequeue(&front, &rear);
+		}
 	}
 	close(fd);
+	free_queue(front);
 	free(file_buf);
 	return (EXIT_SUCCESS);
 }

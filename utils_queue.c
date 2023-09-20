@@ -37,6 +37,32 @@ queue_t *enqueue(queue_t **front, queue_t **rear, char *opcode, char *oparg)
 }
 
 /**
+ * dequeue - a function that removes and returns the front node in a queue
+ * @front: double pointer to the front of the queue
+ * @rear: double pointer to the rear of the queue
+ *
+ * Return: address of the front node, or NULL if the queue is empty or if
+ *         failure occurs.
+ * Description: In cases where the queue has only one node in it, then the
+ *              rear pointer must become NULL. This will make the queue empty.
+ *              The front node already is assigned NULL, when advance it.
+ */
+queue_t *dequeue(queue_t **front, queue_t **rear)
+{
+	queue_t *tmp = NULL;
+
+	if (front == NULL || *front == NULL)
+		return (NULL);
+	tmp = *front;
+	*front = (*front)->next; /* Advance front to the next node */
+	if (*front != NULL)
+		(*front)->prev = NULL;
+	if (tmp == *rear) /* in case tmp is the only node in the queue */
+		*rear = NULL;
+	tmp->prev = tmp->next = NULL;
+	return (tmp);
+}
+/**
  * print_queue - prints the opcodes and opargs in a queue
  * @front: points to the front of the queue
  *
@@ -51,4 +77,11 @@ void print_queue(queue_t *front)
 		_printf("[%d] opcode: [%s] oparg: [%s]\n", i++, front->opcode, front->oparg);
 		front = front->next;
 	}
+}
+
+void print_node(queue_t *node, int *line)
+{
+	if (node != NULL)
+		_printf("[%d] opcode: [%s] oparg: [%s]\n",
+				*line, node->opcode, node->oparg);
 }

@@ -88,6 +88,8 @@ int read_file(int fd, char **buf, int *size);
 /*                 MONTY UTILS - QUEUE                                       */
 /* ------------------------------------------------------------------------- */
 queue_t *enqueue(queue_t **front, queue_t **rear, char *opcode, char *oparg);
+queue_t *dequeue(queue_t **front, queue_t **rear);
+void print_node(queue_t *node, int *line);
 void print_queue(queue_t *front);
 
 /* ------------------------------------------------------------------------- */
