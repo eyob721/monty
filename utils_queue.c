@@ -11,7 +11,7 @@
  * Return: pointer to the new node, or NULL if failure occurs
  */
 queue_t *enqueue(queue_t **front, queue_t **rear,
-		char *opcode, char *oparg, int line)
+		char *opcode, char *oparg, unsigned int line_no)
 {
 	queue_t *new_node = NULL;
 
@@ -26,7 +26,7 @@ queue_t *enqueue(queue_t **front, queue_t **rear,
 	/* Build the new node */
 	new_node->opcode = opcode;
 	new_node->oparg = oparg;
-	new_node->line = line;
+	new_node->line = line_no;
 	new_node->prev = *rear;
 	new_node->next = NULL;
 
