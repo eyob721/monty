@@ -38,3 +38,20 @@ void push(stack_t **top, unsigned int line_number)
 	*top = new_stack;
 }
 
+/**
+ * pall - hanldes the pall opcode
+ * @top: double pointer to the op of the stack
+ * @line_number: current line number in the file
+ *
+ * Return: void
+ */
+void pall(stack_t **top, unsigned int line_number)
+{
+	stack_t *tmp;
+
+	(void)line_number;
+	if (top == NULL)
+		return;
+	for (tmp = *top; tmp != NULL; tmp = tmp->prev)
+		_printf("%d\n", tmp->n);
+}

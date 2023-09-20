@@ -131,6 +131,7 @@ void free_monty(void);
 /*                 MONTY - OPCODES                                           */
 /* ------------------------------------------------------------------------- */
 void push(stack_t **top, unsigned int line_number);
+void pall(stack_t **top, unsigned int line_number);
 
 
 /* ------------------------------------------------------------------------- */

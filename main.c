@@ -50,6 +50,7 @@ int main(int ac, char **av)
 			free(dequeue()); /* Free the executed queue node */
 		}
 	}
+	free_stack(top);
 	free_monty();
 	return (EXIT_SUCCESS);
 }
@@ -64,6 +65,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 {
 	instruction_t opcode_fun[] = {
 		{"push",  push},
+		{"pall",  pall},
 		{NULL, NULL}
 	};
 	int i = 0;
