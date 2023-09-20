@@ -2,20 +2,31 @@
 
 /**
  * free_queue - frees a queue_t doubly linked list.
- * @front: pointer to the front of the queue
  *
  * Return: void
  */
-void free_queue(queue_t *front)
+void free_queue()
 {
 	queue_t *tmp;
 
-	while (front != NULL)
+	while (monty.front != NULL)
 	{
-		tmp = front;
-		front = front->next;
+		tmp = monty.front;
+		monty.front = monty.front->next;
 		tmp->next = NULL;
 		tmp->prev = NULL;
 		free(tmp);
 	}
+}
+
+/**
+ * free_monty - frees the monty data structure
+ *
+ * Return: void
+ */
+void free_monty()
+{
+	close(monty.fd);
+	free_queue();
+	free(monty.file_buf);
 }

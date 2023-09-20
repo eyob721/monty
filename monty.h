@@ -2,7 +2,7 @@
 #define MONTY_H
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - HEADERS, GLOBAL, AND MACROS                       */
+/*                 MONTY - HEADERS AND MACROS                       */
 /* ------------------------------------------------------------------------- */
 /* STANDARD HEADERS */
 #include <stdio.h>
@@ -23,6 +23,7 @@
 
 /* BUFFER CONSTANTS */
 #define FILE_BUF_SIZE 512
+
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */
@@ -67,45 +68,79 @@ typedef struct instruction_s
  * @prev: pointer to the previous node in the queue
  * @next: pointer to the next node in the queue
  *
- * Description: this data structure is used to queue the instructions in each
- * line of the file
+ * Description: this data structure is used to queue the instructions from
+ *              each line of the file.
  */
 typedef struct queue_s
 {
 	char *opcode;
 	char *oparg;
-	int line;
+	unsigned int line;
 	struct queue_s *prev;
 	struct queue_s *next;
 } queue_t;
 
+/**
+ * struct monty_s - a data structure used to hold necessary data for
+ *                  opcode handlers, and memory cleanup.
+ * @fd: file discriptor
+ * @front: pointer to the front of the queue
+ * @rear: pointer to the rear of the queue
+ * @file_buf: pointer to the file buffer
+ *
+ * Description: this data structure is used to share data among the
+ *              main function and other functions.
+ */
+typedef struct monty_s
+{
+	int fd;
+	queue_t *front;
+	queue_t *rear;
+	char *file_buf;
+	int buf_size;
+} monty_t;
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - GENERAL                                     */
 /* ------------------------------------------------------------------------- */
 int read_file(int fd, char **buf, int *size);
+char *get_file_line(char *start, char **save_ptr);
 
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - QUEUE                                       */
 /* ------------------------------------------------------------------------- */
-queue_t *enqueue(queue_t **front, queue_t **rear,
-		char *opcode, char *oparg, int line);
-queue_t *dequeue(queue_t **front, queue_t **rear);
-void print_queue(queue_t *front);
+void build_queue();
+queue_t *enqueue(char *opcode, char *oparg, unsigned int lno);
+queue_t *dequeue();
 void print_node(queue_t *node);
+void print_queue();
+
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY UTILS - MEMORY                                      */
 /* ------------------------------------------------------------------------- */
-void free_queue(queue_t *front);
+void free_queue();
+void free_monty();
 
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY UTILS - MAIN                                        */
+/*                 MONTY - OPCODES                                           */
 /* ------------------------------------------------------------------------- */
-void build_queue(queue_t **front, queue_t **rear, char *file_buf);
-char *get_file_line(char *start, char **save_ptr);
+void push(stack_t **top, unsigned int line_number);
+
+
+/* ------------------------------------------------------------------------- */
+/*                 MONTY - MAIN                                              */
+/* ------------------------------------------------------------------------- */
+void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line);
+
+
+/* ------------------------------------------------------------------------- */
+/*                 MONTY - GLOBAL                                            */
+/* ------------------------------------------------------------------------- */
+/* MONTY DATA */
+extern monty_t monty;
 
 /* ------------------------------------------------------------------------- */
 #endif

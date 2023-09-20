@@ -1,5 +1,9 @@
 #include "lib.h"
 #include "monty.h"
+#include <stdlib.h>
+#include <unistd.h>
+
+monty_t monty;
 
 /**
  * main - the monty program
@@ -10,96 +14,64 @@
  */
 int main(int ac, char **av)
 {
-	int fd, bytes_read = READ_EOF, buf_size = 0;
-	char *file_buf = NULL;
-	queue_t *front = NULL, *rear = NULL, *node = NULL;
+	int bytes_read = READ_EOF, exit_code = EXIT_SUCCESS;
+	stack_t *top = NULL;
+	void (*execute_opcode)(stack_t **top, unsigned int line_number);
 
 	if (ac != 2)
 	{
 		_dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		return (EXIT_FAILURE);
 	}
-	fd = open(av[1], O_RDONLY);
-	if (fd == OPEN_FILE_ERR)
+	monty.fd = open(av[1], O_RDONLY);
+	if (monty.fd == OPEN_FILE_ERR)
 	{
 		_dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
 		return (EXIT_FAILURE);
 	}
-	bytes_read = read_file(fd, &file_buf, &buf_size);
+	bytes_read = read_file(monty.fd, &monty.file_buf, &monty.buf_size);
 	if (bytes_read != READ_EOF && bytes_read != READ_ERR)
 	{
-		build_queue(&front, &rear, file_buf);
-		node = dequeue(&front, &rear);
-		while (node != NULL)
+		build_queue();
+		while (monty.front != NULL)
 		{
-			print_node(node);
-			free(node);
-			node = dequeue(&front, &rear);
+			execute_opcode = get_opcode_function(monty.front->opcode);
+			if (execute_opcode == NULL)
+			{
+				_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
+						monty.front->line, monty.front->opcode);
+				exit_code = EXIT_FAILURE;
+				break;
+			}
+			execute_opcode(&top, monty.front->line);
+			free(dequeue());
 		}
 	}
-	close(fd);
-	free_queue(front);
-	free(file_buf);
-	return (EXIT_SUCCESS);
+	free_monty();
+	return (exit_code);
 }
 
 /**
- * build_queue - builds a queue of instructions from the file buffer.
- * @front: double pointer to the front of the queue
- * @rear: double pointer to the rear of the queue
- * @file_buf: pointer to the file buffer
+ * get_opcode_function - fetches the handler function for an opcode
+ * @opcode: given opcode
  *
- * Return: void
+ * Return: function of the opcode, or NULL if opcode is not supported
  */
-void build_queue(queue_t **front, queue_t **rear, char *file_buf)
+void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 {
-	int line_no = 1;
-	char *line = NULL, *opcode = NULL, *oparg = NULL;
-	char *line_save = NULL, *op_save = NULL;
+	instruction_t opcode_fun[] = {
+		{"push",  push},
+		{NULL, NULL}
+	};
+	int i = 0;
 
-	if (file_buf == NULL)
-		return;
-	line = get_file_line(file_buf, &line_save);
-	while (line != NULL)
+	while (opcode_fun[i].opcode != NULL)
 	{
-		opcode = _strtok_r(line, " ", &op_save);
-		oparg = _strtok_r(NULL, " ", &op_save);
-		enqueue(front, rear, opcode, oparg, line_no);
-		line = get_file_line(NULL, &line_save);
-		++line_no;
-	}
-}
-
-/**
- * get_file_line - a function that gets the next line token from a file buffer
- * @start: starting point of line token
- * @save_ptr: a double pointer to save the start of the next token
- *
- * Return: a line from the file buffer
- * Description:
- *     - In the case where there is an empty line, then the function
- *       returns an empty token.
- *     - The starting point for the next token (i.e. save_ptr), is determined
- *       in the _strtok_r function.
- */
-char *get_file_line(char *start, char **save_ptr)
-{
-	char *line = NULL;
-
-	if (save_ptr == NULL || (start == NULL && *save_ptr == NULL))
-		return (NULL);
-
-	/* Determine starting point */
-	start = start != NULL ? start : *save_ptr;
-
-	/* In case of an empty line, return an empty string */
-	if (*start == '\n')
-	{
-		*save_ptr = start + 1;
-		*start = '\0';
-		return (start);
+		if (_strcmp(opcode_fun[i].opcode, opcode) == 0)
+			return (opcode_fun[i].f);
+		++i;
 	}
 
-	line = _strtok_r(start, "\n", save_ptr);
-	return (line);
+	return (NULL);
 }
+
