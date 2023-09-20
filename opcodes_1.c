@@ -1,3 +1,4 @@
+#include "lib.h"
 #include "monty.h"
 
 /**
@@ -13,7 +14,8 @@ void push(stack_t **top, unsigned int line_number)
 
 	if (top == NULL)
 		return;
-	if (is_integer(monty.front->oparg) == 0)
+	/* Check if the opcode argument is an integer */
+	if (!is_integer(monty.front->oparg))
 	{
 		_dprintf(STDERR_FILENO, "L%d: usage: push integer\n",
 				line_number);
@@ -21,7 +23,7 @@ void push(stack_t **top, unsigned int line_number)
 		free_monty();
 		exit(EXIT_FAILURE);
 	}
-
+	/* Allocate memory */
 	new_stack = malloc(sizeof(stack_t));
 	if (new_stack == NULL)
 	{
@@ -30,6 +32,7 @@ void push(stack_t **top, unsigned int line_number)
 		free_monty();
 		exit(EXIT_FAILURE);
 	}
+	/* Add the new stack node to the stack */
 	new_stack->n = _atoi(monty.front->oparg);
 	new_stack->prev = *top;
 	new_stack->next = NULL;

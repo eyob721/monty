@@ -87,15 +87,19 @@ char *get_file_line(char *start, char **save_ptr)
  */
 int is_integer(char *str)
 {
-	int i = 0;
+	int i = 0, num_is_negative = 0;
 
 	if (str == NULL)
 		return (0);
-	while (str[i] != '\0')
+	for (i = 0; str[i] != '\0'; ++i)
 	{
+		if (str[i] == '-' && !num_is_negative)
+		{
+			num_is_negative = 1;
+			continue;
+		}
 		if (!_isdigit(str[i]))
 			return (0);
-		++i;
 	}
 	return (1);
 }
