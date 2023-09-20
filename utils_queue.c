@@ -35,3 +35,20 @@ queue_t *enqueue(queue_t **front, queue_t **rear, char *opcode, char *oparg)
 	*rear = new_node;
 	return (new_node);
 }
+
+/**
+ * print_queue - prints the opcodes and opargs in a queue
+ * @front: points to the front of the queue
+ *
+ * Return: void
+ */
+void print_queue(queue_t *front)
+{
+	int i = 1;
+
+	while (front != NULL)
+	{
+		_printf("[%d] opcode: [%s] oparg: [%s]\n", i++, front->opcode, front->oparg);
+		front = front->next;
+	}
+}
