@@ -107,3 +107,42 @@ void pop(stack_t **top, unsigned int lnum)
 	free(tmp);
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * swap - handles the swap opcode
+ * @top: double pointer to the op of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void swap(stack_t **top, unsigned int lnum)
+{
+	int stack_len;
+	stack_t *top_node, *second_node, *third_node;
+
+	if (top == NULL)
+		return;
+	stack_len = get_stack_len(*top);
+	if (stack_len < 2)
+	{
+		_dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n", lnum);
+		monty.exit_status = EXIT_FAILURE;
+		return;
+	}
+	/* Swap the top two nodes, and correct the third node, if there is one */
+	top_node = *top;
+	second_node = top_node->prev;
+	third_node = second_node->prev;
+
+	top_node->prev = third_node;
+	top_node->next = second_node;
+
+	second_node->prev = top_node;
+	second_node->next = *top;
+
+	if (third_node != NULL)
+		third_node->next = second_node;
+
+	*top = second_node;
+	monty.exit_status = EXIT_SUCCESS;
+}

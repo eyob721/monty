@@ -120,6 +120,12 @@ void free_queue(queue_t *front);
 
 
 /* ------------------------------------------------------------------------- */
+/*                 MONTY UTILS - OPCODES                                           */
+/* ------------------------------------------------------------------------- */
+int get_stack_len(stack_t *top);
+
+
+/* ------------------------------------------------------------------------- */
 /*                 MONTY - OPCODES                                           */
 /* ------------------------------------------------------------------------- */
 /* 1 */
@@ -127,6 +133,7 @@ void push(stack_t **top, unsigned int lnum);
 void pall(stack_t **top, unsigned int lnum);
 void pint(stack_t **top, unsigned int lnum);
 void pop(stack_t **top, unsigned int lnum);
+void swap(stack_t **top, unsigned int lnum);
 
 
 /* ------------------------------------------------------------------------- */
