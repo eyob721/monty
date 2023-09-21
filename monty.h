@@ -100,6 +100,7 @@ typedef struct monty_s
 /* ------------------------------------------------------------------------- */
 int read_file(int fd, char **buf, int *size);
 char *get_file_line(char *start, char **save_ptr);
+void parse_line(char *line);
 int is_integer(char *str);
 
 

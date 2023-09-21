@@ -67,6 +67,10 @@ char *get_file_line(char *start, char **save_ptr)
 	/* Determine starting point */
 	start = start != NULL ? start : *save_ptr;
 
+	/* Skip initial spaces */
+	while (*start == ' ')
+		++start;
+
 	/* In case of an empty line, return an empty string */
 	if (*start == '\n')
 	{
@@ -77,6 +81,21 @@ char *get_file_line(char *start, char **save_ptr)
 
 	line = _strtok_r(start, "\n", save_ptr);
 	return (line);
+}
+
+/**
+ * remove_comments - a function that removes comments from the line
+ * @line: a line in the file buffer
+ *
+ * Return: void
+ */
+void parse_line(char *line)
+{
+	char *comment;
+
+	comment = _strchr(line, '#');
+	if (comment != NULL)
+		*comment = '\0';
 }
 
 /**

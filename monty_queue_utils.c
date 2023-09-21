@@ -7,6 +7,16 @@
  * @file_buf: pointer to the file buffer
  *
  * Return: void
+ * Description: Here are the steps taken
+ *     - First the `get_file_line` function finds and returns the next line in
+ *       the file buffer. Here the `get_file_line` function skips all the
+ *       initial spaces found and checks if the line is empty or not. In case it
+ *       is an empty line then it returns an empty string.
+ *     - After we have the next line then the `parse_line` function removes
+ *       commented string from the line.
+ *     - After parsing then the `enqueue` function builds a queue node from the
+ *       line. If the line is NULL or an empty string, then it will do nothing.
+ *     - These steps are repeated for all the lines in the file buffer.
  */
 void build_queue(queue_t **front, queue_t **rear, char *file_buf)
 {
@@ -19,6 +29,7 @@ void build_queue(queue_t **front, queue_t **rear, char *file_buf)
 	line = get_file_line(file_buf, &line_save);
 	while (line != NULL)
 	{
+		parse_line(line);
 		opcode = _strtok_r(line, " ", &op_save);
 		oparg = _strtok_r(NULL, " ", &op_save);
 		enqueue(front, rear, opcode, oparg, line_no);
