@@ -24,8 +24,11 @@
 /* BUFFER CONSTANTS */
 #define FILE_BUF_SIZE 512
 
-/* PCHAR MACRO */
+/* MACRO TO CHECK IF X IS A VALID ASCII VALUE */
 #define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 127)
+
+/* MACRO TO SWAP VALUES OF X AND Y */
+#define SWAP_VALUES(x, y, tmp) ((tmp) = (y), (y) = (x), (x) = (tmp))
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */

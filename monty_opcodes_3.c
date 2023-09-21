@@ -127,11 +127,12 @@ void rotl(stack_t **top, unsigned int lnum)
  */
 void rotr(stack_t **top, unsigned int lnum)
 {
-	stack_t *top_node, *second_top, *last_node, *second_last;
+	stack_t *top_node, *second_top, *last_node, *second_last, *tmp;
 
 	(void)lnum;
 	if (top == NULL || *top == NULL)
 		return;
+
 	/* Determine the nodes */
 	top_node = *top;
 	second_top = top_node->prev;
@@ -139,6 +140,9 @@ void rotr(stack_t **top, unsigned int lnum)
 	while (last_node->prev != NULL)
 		last_node = last_node->prev;
 	second_last = last_node->next;
+	/* For stacks with 2 nodes, swap second_top and second_last variables */
+	if (top_node == second_last && last_node == second_top)
+		SWAP_VALUES(second_last, second_top, tmp);
 
 	/* Move the top to the bottom */
 	top_node->prev = NULL;
