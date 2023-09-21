@@ -84,12 +84,12 @@ char *get_file_line(char *start, char **save_ptr)
 }
 
 /**
- * remove_comments - a function that removes comments from the line
+ * remove_comment - a function that removes comments from a line
  * @line: a line in the file buffer
  *
  * Return: void
  */
-void parse_line(char *line)
+void remove_comment(char *line)
 {
 	char *comment;
 

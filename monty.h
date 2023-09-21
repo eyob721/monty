@@ -2,7 +2,7 @@
 #define MONTY_H
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - HEADERS AND MACROS                       */
+/*                 MONTY - HEADERS AND MACROS                                */
 /* ------------------------------------------------------------------------- */
 /* STANDARD HEADERS */
 #include <stdio.h>
@@ -100,7 +100,7 @@ typedef struct monty_s
 /* ------------------------------------------------------------------------- */
 int read_file(int fd, char **buf, int *size);
 char *get_file_line(char *start, char **save_ptr);
-void parse_line(char *line);
+void remove_comment(char *line);
 int is_integer(char *str);
 
 
@@ -121,7 +121,7 @@ void free_queue(queue_t *front);
 
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY UTILS - OPCODES                                           */
+/*                 MONTY UTILS - OPCODES                                     */
 /* ------------------------------------------------------------------------- */
 int get_stack_len(stack_t *top);
 
