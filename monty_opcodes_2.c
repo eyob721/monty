@@ -26,3 +26,17 @@ void add(stack_t **top, unsigned int lnum)
 	pop(top, lnum);
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * nop - handles the nop opcode
+ * @top: double pointer to the op of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void nop(stack_t **top, unsigned int lnum)
+{
+	(void)top;
+	(void)lnum;
+	monty.exit_status = EXIT_SUCCESS;
+}
