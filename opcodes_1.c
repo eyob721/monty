@@ -1,7 +1,7 @@
 #include "monty.h"
 
 /**
- * push - hanldes the push opcode
+ * push - handles the push opcode
  * @top: double pointer to the op of the stack
  * @lnum: current line number in the file
  *
@@ -39,7 +39,7 @@ void push(stack_t **top, unsigned int lnum)
 }
 
 /**
- * pall - hanldes the pall opcode
+ * pall - handles the pall opcode
  * @top: double pointer to the op of the stack
  * @lnum: current line number in the file
  *
@@ -58,7 +58,7 @@ void pall(stack_t **top, unsigned int lnum)
 }
 
 /**
- * pint - hanldes the pint opcode
+ * pint - handles the pint opcode
  * @top: double pointer to the op of the stack
  * @lnum: current line number in the file
  *
@@ -75,4 +75,35 @@ void pint(stack_t **top, unsigned int lnum)
 		return;
 	}
 	_printf("%d\n", (*top)->n);
+	monty.exit_status = EXIT_SUCCESS;
+}
+
+/**
+ * pop - handles the pop opcode
+ * @top: double pointer to the op of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void pop(stack_t **top, unsigned int lnum)
+{
+	stack_t *tmp;
+
+	if (top == NULL)
+		return;
+
+	if (*top == NULL) /* Empty stack */
+	{
+		_dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", lnum);
+		monty.exit_status = EXIT_FAILURE;
+		return;
+	}
+	/* Remove the top node */
+	tmp = *top;
+	*top = (*top)->prev;
+	if (*top != NULL)
+		(*top)->next = NULL;
+	tmp->prev = tmp->next = NULL;
+	free(tmp);
+	monty.exit_status = EXIT_SUCCESS;
 }
