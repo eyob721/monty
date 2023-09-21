@@ -59,3 +59,28 @@ void pchar(stack_t **top, unsigned int lnum)
 	_printf("%c\n", (*top)->n);
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * pstr - handles the pstr opcode
+ * @top: double pointer to the top of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void pstr(stack_t **top, unsigned int lnum)
+{
+	stack_t *node = NULL;
+
+	(void)lnum;
+	if (top == NULL)
+		return;
+	node = *top;
+
+	while (node != NULL && node->n != 0 && IS_VALID_ASCII_VALUE(node->n))
+	{
+		_printf("%c", node->n);
+		node = node->prev;
+	}
+	_printf("\n");
+	monty.exit_status = EXIT_SUCCESS;
+}
