@@ -24,6 +24,8 @@
 /* BUFFER CONSTANTS */
 #define FILE_BUF_SIZE 512
 
+/* PCHAR MACRO */
+#define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 255)
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */
@@ -145,6 +147,7 @@ void mul_opcode(stack_t **top, unsigned int lnum);
 
 /* 3 */
 void mod_opcode(stack_t **top, unsigned int lnum);
+void pchar(stack_t **top, unsigned int lnum);
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - MAIN                                              */
