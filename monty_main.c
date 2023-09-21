@@ -72,8 +72,9 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 		{"pint", pint},
 		{"pop", pop},
 		{"swap", swap},
-		{"add", add},
 		{"nop", nop},
+		{"add", add},
+		{"sub", sub},
 		{NULL, NULL}
 	};
 	int i = 0;

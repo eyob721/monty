@@ -136,8 +136,9 @@ void pop(stack_t **top, unsigned int lnum);
 void swap(stack_t **top, unsigned int lnum);
 
 /* 2 */
-void add(stack_t **top, unsigned int lnum);
 void nop(stack_t **top, unsigned int lnum);
+void add(stack_t **top, unsigned int lnum);
+void sub(stack_t **top, unsigned int lnum);
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - MAIN                                              */
