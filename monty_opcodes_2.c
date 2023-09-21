@@ -2,7 +2,7 @@
 
 /**
  * nop - handles the nop opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -16,7 +16,7 @@ void nop(stack_t **top, unsigned int lnum)
 
 /**
  * add_opcode - handles the add opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -43,7 +43,7 @@ void add_opcode(stack_t **top, unsigned int lnum)
 
 /**
  * sub_opcode - handles the sub opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -71,7 +71,7 @@ void sub_opcode(stack_t **top, unsigned int lnum)
 
 /**
  * div_opcode - handles the div opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -104,7 +104,7 @@ void div_opcode(stack_t **top, unsigned int lnum)
 
 /**
  * mul_opcode - handles the mul opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void

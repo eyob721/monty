@@ -2,7 +2,7 @@
 
 /**
  * mod_opcode - handles the mod opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -35,7 +35,7 @@ void mod_opcode(stack_t **top, unsigned int lnum)
 
 /**
  * pchar - handles the pchar opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -50,7 +50,7 @@ void pchar(stack_t **top, unsigned int lnum)
 		monty.exit_status = EXIT_FAILURE;
 		return;
 	}
-	if (!IS_VALID_ASCII_VALUE((*top)->n))
+	if (!IS_VALID_ASCII_VALUE((*top)->n)) /* x >= 0 && x <= 255 */
 	{
 		_dprintf(STDERR_FILENO, "L%d: can't pchar, value out of range\n", lnum);
 		monty.exit_status = EXIT_FAILURE;

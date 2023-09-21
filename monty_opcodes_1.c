@@ -2,7 +2,7 @@
 
 /**
  * push - handles the push opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -40,7 +40,7 @@ void push(stack_t **top, unsigned int lnum)
 
 /**
  * pall - handles the pall opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -59,7 +59,7 @@ void pall(stack_t **top, unsigned int lnum)
 
 /**
  * pint - handles the pint opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -80,7 +80,7 @@ void pint(stack_t **top, unsigned int lnum)
 
 /**
  * pop - handles the pop opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
@@ -110,7 +110,7 @@ void pop(stack_t **top, unsigned int lnum)
 
 /**
  * swap - handles the swap opcode
- * @top: double pointer to the op of the stack
+ * @top: double pointer to the top of the stack
  * @lnum: current line number in the file
  *
  * Return: void
