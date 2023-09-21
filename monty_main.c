@@ -80,6 +80,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 		{"mod", mod_opcode},
 		{"pchar", pchar},
 		{"pstr", pstr},
+		{"rotl", rotl},
 		{NULL, NULL}
 	};
 	int i = 0;

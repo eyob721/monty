@@ -84,3 +84,36 @@ void pstr(stack_t **top, unsigned int lnum)
 	_printf("\n");
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * rotl - handles the rotl opcode
+ * @top: double pointer to the top of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void rotl(stack_t **top, unsigned int lnum)
+{
+	stack_t *top_node, *second_node, *last_node;
+
+	(void)lnum;
+	if (top == NULL || *top == NULL)
+		return;
+
+	/* Find the top, second, and the last node */
+	top_node = *top;
+	second_node = top_node->prev;
+	last_node = top_node;
+	while (last_node->prev != NULL)
+		last_node = last_node->prev;
+
+	/* Bring the top to the bottom and the second to the top */
+	if (second_node != NULL)
+		second_node->next = NULL;
+	top_node->prev = NULL;
+	top_node->next = top_node != last_node ? last_node : NULL;
+	last_node->prev = top_node != last_node ? top_node : NULL;
+	*top = second_node != NULL ? second_node : top_node;
+
+	monty.exit_status = EXIT_SUCCESS;
+}
