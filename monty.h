@@ -137,8 +137,13 @@ void swap(stack_t **top, unsigned int lnum);
 
 /* 2 */
 void nop(stack_t **top, unsigned int lnum);
-void add(stack_t **top, unsigned int lnum);
-void sub(stack_t **top, unsigned int lnum);
+void add_opcode(stack_t **top, unsigned int lnum);
+void sub_opcode(stack_t **top, unsigned int lnum);
+void div_opcode(stack_t **top, unsigned int lnum);
+void mul_opcode(stack_t **top, unsigned int lnum);
+
+/* 3 */
+void mod_opcode(stack_t **top, unsigned int lnum);
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - MAIN                                              */
