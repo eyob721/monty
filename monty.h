@@ -150,6 +150,7 @@ void mod_opcode(stack_t **top, unsigned int lnum);
 void pchar(stack_t **top, unsigned int lnum);
 void pstr(stack_t **top, unsigned int lnum);
 void rotl(stack_t **top, unsigned int lnum);
+void rotr(stack_t **top, unsigned int lnum);
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - MAIN                                              */
