@@ -122,8 +122,9 @@ void free_queue(queue_t *front);
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - OPCODES                                           */
 /* ------------------------------------------------------------------------- */
-void push(stack_t **top, unsigned int line_number);
-void pall(stack_t **top, unsigned int line_number);
+void push(stack_t **top, unsigned int lnum);
+void pall(stack_t **top, unsigned int lnum);
+void pint(stack_t **top, unsigned int lnum);
 
 
 /* ------------------------------------------------------------------------- */

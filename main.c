@@ -54,7 +54,7 @@ int main(int ac, char **av)
 			free(monty.node); /* Free the executed queue node */
 		}
 	}
-	close(fd), free_stack(top), free(file_buf);
+	close(fd), free_stack(top), free_queue(front), free(file_buf);
 	return (monty.exit_status);
 }
 
@@ -69,6 +69,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 	instruction_t opcode_fun[] = {
 		{"push",  push},
 		{"pall",  pall},
+		{"pint",  pint},
 		{NULL, NULL}
 	};
 	int i = 0;
