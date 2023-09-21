@@ -25,7 +25,7 @@
 #define FILE_BUF_SIZE 512
 
 /* PCHAR MACRO */
-#define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 255)
+#define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 127)
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */
