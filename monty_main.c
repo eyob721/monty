@@ -1,6 +1,6 @@
 #include "monty.h"
 
-monty_t monty = {NULL, EXIT_SUCCESS};
+monty_t monty = {NULL, NULL, STACK_MODE, EXIT_SUCCESS};
 
 /**
  * main - the monty program
@@ -40,18 +40,18 @@ int main(int ac, char **av)
 		build_queue(&front, &rear, file_buf);
 		while (front != NULL && monty.exit_status == EXIT_SUCCESS)
 		{
-			monty.node = dequeue(&front, &rear);
-			execute_opcode = get_opcode_function(monty.node->opcode);
+			monty.instruction = dequeue(&front, &rear);
+			execute_opcode = get_opcode_function(monty.instruction->opcode);
 			if (execute_opcode == NULL)
 			{
 				_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
-						monty.node->line, monty.node->opcode);
+						monty.instruction->line, monty.instruction->opcode);
 				monty.exit_status = EXIT_FAILURE;
-				free(monty.node); /* Free the executed queue node */
+				free(monty.instruction); /* Free the executed queue node */
 				break;
 			}
-			execute_opcode(&top, monty.node->line);
-			free(monty.node); /* Free the executed queue node */
+			execute_opcode(&top, monty.instruction->line);
+			free(monty.instruction); /* Free the executed queue node */
 		}
 	}
 	close(fd), free_stack(top), free_queue(front), free(file_buf);
@@ -82,6 +82,8 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 		{"pstr", pstr},
 		{"rotl", rotl},
 		{"rotr", rotr},
+		{"stack", change_to_stack},
+		{"queue", change_to_queue},
 		{NULL, NULL}
 	};
 	int i = 0;

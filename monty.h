@@ -27,8 +27,9 @@
 /* MACRO TO CHECK IF X IS A VALID ASCII VALUE */
 #define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 127)
 
-/* MACRO TO SWAP VALUES OF X AND Y */
-#define SWAP_VALUES(x, y, tmp) ((tmp) = (y), (y) = (x), (x) = (tmp))
+/* FORMAT OF THE MONTY STACK */
+#define STACK_MODE 0
+#define QUEUE_MODE 1
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */
@@ -66,7 +67,7 @@ typedef struct instruction_s
 
 /**
  * struct queue_s - doubly linked list representation of a queue of
- *                  opcodes and their arguments
+ *                  instructions, whcih contain opcodes and their arguments
  * @opcode: the opcode
  * @oparg: argument of the opcode
  * @line: the line number of the opcode instruction
@@ -88,7 +89,9 @@ typedef struct queue_s
 /**
  * struct monty_s - a data structure used to hold necessary data for
  *                  opcode handlers, and memory cleanup.
- * @node: pointer to a node on the queue
+ * @instruction: pointer to a node in the queue of instructions
+ * @last: pointer to the last element in the stack
+ * @mode: used to indicate the mode of the monty data (stack or queue)
  * @exit_status: used to hold the exit status of the monty program
  *
  * Description: this data structure is used to share data among the
@@ -96,7 +99,9 @@ typedef struct queue_s
  */
 typedef struct monty_s
 {
-	queue_t *node;
+	queue_t *instruction;
+	stack_t *last;
+	int mode;
 	int exit_status;
 } monty_t;
 
@@ -155,10 +160,17 @@ void pstr(stack_t **top, unsigned int lnum);
 void rotl(stack_t **top, unsigned int lnum);
 void rotr(stack_t **top, unsigned int lnum);
 
+/* 4 */
+void change_to_stack(stack_t **top, unsigned int lnum);
+void change_to_queue(stack_t **top, unsigned int lnum);
+
+
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - MAIN                                              */
 /* ------------------------------------------------------------------------- */
 void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line);
+void push_to_top(stack_t **top, stack_t *new_stack);
+void push_to_last(stack_t **top, stack_t *new_stack);
 
 
 /* ------------------------------------------------------------------------- */
