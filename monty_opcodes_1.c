@@ -147,5 +147,7 @@ void swap(stack_t **top, unsigned int lnum)
 		third_node->next = second_node;
 
 	*top = second_node;
+	if (stack_len == 2)
+		monty.last = top_node;
 	monty.exit_status = EXIT_SUCCESS;
 }
