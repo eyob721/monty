@@ -108,12 +108,14 @@ void rotl(stack_t **top, unsigned int lnum)
 		last_node = last_node->prev;
 
 	/* Bring the top to the bottom */
-	if (second_top != NULL)
-		second_top->next = NULL;
-	top_node->prev = NULL;
-	top_node->next = top_node != last_node ? last_node : NULL;
-	last_node->prev = top_node != last_node ? top_node : NULL;
-
+	if (top_node != last_node) /* Only rotate stack with more than 1 node */
+	{
+		if (second_top != NULL)
+			second_top->next = NULL;
+		top_node->prev = NULL;
+		top_node->next = last_node;
+		last_node->prev = top_node;
+	}
 	/* Update top */
 	*top = second_top != NULL ? second_top : top_node;
 
@@ -143,12 +145,14 @@ void rotr(stack_t **top, unsigned int lnum)
 	second_last = last_node->next;
 
 	/* Bring the bottom to the top */
-	last_node->prev = top_node != last_node ? top_node : NULL;
-	last_node->next = NULL;
-	top_node->next = top_node != last_node ? last_node : NULL;
-	if (second_last != NULL)
-		second_last->prev = NULL;
-
+	if (top_node != last_node) /* Only rotate stack with more than 1 node */
+	{
+		last_node->prev = top_node;
+		last_node->next = NULL;
+		top_node->next = last_node;
+		if (second_last != NULL)
+			second_last->prev = NULL;
+	}
 	/* Update top */
 	*top = last_node;
 
