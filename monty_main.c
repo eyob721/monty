@@ -31,16 +31,19 @@ int main(int ac, char **av)
 	while (bytes_read != READ_EOF && monty.exit_status == EXIT_SUCCESS)
 	{
 		++line_number;
-		get_opcode_oparg(line_buf);
-		execute_opcode = get_opcode_function(monty.cur_opcode);
-		if (execute_opcode == NULL)
+		if (*line_buf != '\0') /* Empty line */
 		{
-			_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
-					line_number, monty.cur_opcode);
-			monty.exit_status = EXIT_FAILURE;
-			break;
+			get_opcode_oparg(line_buf);
+			execute_opcode = get_opcode_function(monty.cur_opcode);
+			if (execute_opcode == NULL)
+			{
+				_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
+						line_number, monty.cur_opcode);
+				monty.exit_status = EXIT_FAILURE;
+				break;
+			}
+			execute_opcode(&top, line_number);
 		}
-		execute_opcode(&top, line_number);
 		bytes_read = read_line(fd, &line_buf, &line_size);
 	}
 	close(fd);
@@ -50,19 +53,24 @@ int main(int ac, char **av)
 }
 
 /**
- * get_opcode - a function that gets the opcode and opargs from the line buffer
+ * get_opcode_oparg - gets the opcode and oparg from the line buffer.
  * @line_buf: pointer to the line buffer
  *
  * Return: void
  */
 void get_opcode_oparg(char *line_buf)
 {
-	char *line_save = NULL;
+	char *line_ptr = line_buf, *line_save = NULL;
 
 	if (line_buf == NULL)
 		return;
+
+	/* Skip initial spaces */
+	while (*line_ptr == ' ')
+		++line_ptr;
+
 	remove_comment(line_buf);
-	monty.cur_opcode = _strtok_r(line_buf, " ", &line_save);
+	monty.cur_opcode = _strtok_r(line_ptr, " ", &line_save);
 	monty.cur_oparg = _strtok_r(NULL, " ", &line_save);
 }
 
