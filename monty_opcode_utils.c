@@ -34,7 +34,7 @@ void push_to_top(stack_t **top, stack_t *new_stack)
 	if (*top != NULL)
 		(*top)->next = new_stack;
 	if (*top == NULL)
-		monty.last = new_stack;
+		monty.last_node = new_stack;
 	*top = new_stack;
 }
 
@@ -50,11 +50,11 @@ void push_to_last(stack_t **top, stack_t *new_stack)
 {
 	/* Add the new stack node at the last node of the stack */
 	new_stack->prev = NULL;
-	new_stack->next = monty.last;
-	if (monty.last != NULL)
-		monty.last->prev = new_stack;
-	if (monty.last == NULL)
+	new_stack->next = monty.last_node;
+	if (monty.last_node != NULL)
+		monty.last_node->prev = new_stack;
+	if (monty.last_node == NULL)
 		*top = new_stack;
-	monty.last = new_stack;
+	monty.last_node = new_stack;
 
 }

@@ -105,17 +105,17 @@ void rotl(stack_t **top, unsigned int lnum)
 	second_top = top_node->prev;
 
 	/* Bring the top to the bottom */
-	if (top_node != monty.last) /* Only rotate stack with more than 1 node */
+	if (top_node != monty.last_node) /* Only rotate stack with more than 1 node */
 	{
 		if (second_top != NULL)
 			second_top->next = NULL;
 		top_node->prev = NULL;
-		top_node->next = monty.last;
-		monty.last->prev = top_node;
+		top_node->next = monty.last_node;
+		monty.last_node->prev = top_node;
 	}
 	/* Update top */
 	*top = second_top != NULL ? second_top : top_node;
-	monty.last = top_node;
+	monty.last_node = top_node;
 
 	monty.exit_status = EXIT_SUCCESS;
 }
@@ -153,7 +153,7 @@ void rotr(stack_t **top, unsigned int lnum)
 	}
 	/* Update top */
 	*top = last_node;
-	monty.last = second_last;
+	monty.last_node = second_last;
 
 	monty.exit_status = EXIT_SUCCESS;
 }

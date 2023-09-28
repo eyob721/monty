@@ -1,48 +1,46 @@
 #include "monty.h"
 
-/**
- * read_file - a function that reads a file
- * @fd: file discriptor of the file
- * @buf: double pointer to the buffer
- * @size: pointer to the buffer size
- *
- * Return: number of characters read, or -1 if an error occurs
- * Description:
- *		- Use a temporary buffer for reading a file
- *		- When reading from a file, the number of bytes read is the amount of
- *		  bytes specified in the BUF_SIZE macro, minus 1 for a null byte.
- */
-int read_file(int fd, char **buf, int *size)
-{
-	char tmp_buf[FILE_BUF_SIZE] = {0};
-	int bytes_read, buf_pos = 0;
 
-	if (*buf == NULL)
+/**
+ * read_line - a function that reads a line from a file descriptor
+ * @fd: file descriptor
+ * @line_buff: double pointer to the line buffer
+ * @line_size: pointer to the line buffer size
+ *
+ * Return: number of characters read, or -1 if an error occured
+ */
+int read_line(int fd, char **line_buff, int *line_size)
+{
+	char ch;
+	int bytes_read = READ_EOF, total_read = 0, pos = 0;
+
+	if (fd == OPEN_ERR)
+		return (READ_ERR);
+	if (*line_buff == NULL)
 	{
-		*size = FILE_BUF_SIZE;
-		*buf = _realloc(*buf, 0, *size);
-		if (*buf == NULL)
+		*line_size = LINE_BUFF_SIZE;
+		*line_buff = _realloc(*line_buff, 0, *line_size);
+		if (*line_buff == NULL)
 			return (READ_ERR);
 	}
 
-	bytes_read = read(fd, tmp_buf, FILE_BUF_SIZE - 1);
+	bytes_read = read(fd, &ch, 1);
 	while (bytes_read != READ_EOF && bytes_read != READ_ERR)
 	{
-		if (bytes_read >= (*size - buf_pos))
+		if (pos == *line_size - 1)
 		{
-			*buf = _realloc(*buf, *size, *size + FILE_BUF_SIZE);
-			*size += FILE_BUF_SIZE;
+			*line_buff = _realloc(*line_buff, *line_size, *line_size + LINE_BUFF_SIZE);
+			*line_size += LINE_BUFF_SIZE;
 		}
-		_memcpy(*buf + buf_pos, tmp_buf, bytes_read);
-		buf_pos += bytes_read;
-		if ((*buf)[buf_pos - 1] == '\n')
-		{
-			(*buf)[buf_pos - 1] = '\0';
-			return (buf_pos);
-		}
-		bytes_read = read(fd, tmp_buf, FILE_BUF_SIZE - 1);
+		(*line_buff)[pos] = ch;
+		total_read += bytes_read;
+		if ((*line_buff)[pos] == '\n')
+			break;
+		++pos;
+		bytes_read = read(fd, &ch, 1);
 	}
-	return (bytes_read);
+	(*line_buff)[pos] = '\0';
+	return (total_read);
 }
 
 /**

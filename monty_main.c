@@ -1,6 +1,6 @@
 #include "monty.h"
 
-monty_t monty = {NULL, NULL, STACK_MODE, EXIT_SUCCESS};
+monty_t monty = INITIALIZE_MONTY;
 
 /**
  * main - the monty program
@@ -8,19 +8,12 @@ monty_t monty = {NULL, NULL, STACK_MODE, EXIT_SUCCESS};
  * @av: argument vector
  *
  * Return: 0 on success, or 1 on error
- * Description:
- *     - This is how the program uses the stack and queue data structures
- *     - The stack is used to execute opcode instructions.
- *     - The queue is used to arrange the instructions that are found in the
- *       monty byte code file to form, a queue.
- *     - So the program executes each opcodes in the queue on the stack.
  */
 int main(int ac, char **av)
 {
-	int fd, buf_size = 0, bytes_read;
-	char *file_buf = NULL;
+	int line_size = 0, line_number = 0, fd, bytes_read;
+	char *line_buf = NULL;
 	stack_t *top = NULL;
-	queue_t *front = NULL, *rear = NULL;
 	void (*execute_opcode)(stack_t **top, unsigned int line_number);
 
 	if (ac != 2)
@@ -29,33 +22,48 @@ int main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	fd = open(av[1], O_RDONLY);
-	if (fd == OPEN_FILE_ERR)
+	if (fd == OPEN_ERR)
 	{
 		_dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
 		return (EXIT_FAILURE);
 	}
-	bytes_read = read_file(fd, &file_buf, &buf_size);
-	if (bytes_read != READ_EOF && bytes_read != READ_ERR)
+	bytes_read = read_line(fd, &line_buf, &line_size);
+	while (bytes_read != READ_EOF && monty.exit_status == EXIT_SUCCESS)
 	{
-		build_queue(&front, &rear, file_buf);
-		while (front != NULL && monty.exit_status == EXIT_SUCCESS)
+		++line_number;
+		get_opcode_oparg(line_buf);
+		execute_opcode = get_opcode_function(monty.cur_opcode);
+		if (execute_opcode == NULL)
 		{
-			monty.instruction = dequeue(&front, &rear);
-			execute_opcode = get_opcode_function(monty.instruction->opcode);
-			if (execute_opcode == NULL)
-			{
-				_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
-						monty.instruction->line, monty.instruction->opcode);
-				monty.exit_status = EXIT_FAILURE;
-				free(monty.instruction); /* Free the executed queue node */
-				break;
-			}
-			execute_opcode(&top, monty.instruction->line);
-			free(monty.instruction); /* Free the executed queue node */
+			_dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
+					line_number, monty.cur_opcode);
+			monty.exit_status = EXIT_FAILURE;
+			break;
 		}
+		execute_opcode(&top, line_number);
+		bytes_read = read_line(fd, &line_buf, &line_size);
 	}
-	close(fd), free_stack(top), free_queue(front), free(file_buf);
+	close(fd);
+	free(line_buf);
+	free_stack(top);
 	return (monty.exit_status);
+}
+
+/**
+ * get_opcode - a function that gets the opcode and opargs from the line buffer
+ * @line_buf: pointer to the line buffer
+ *
+ * Return: void
+ */
+void get_opcode_oparg(char *line_buf)
+{
+	char *line_save = NULL;
+
+	if (line_buf == NULL)
+		return;
+	remove_comment(line_buf);
+	monty.cur_opcode = _strtok_r(line_buf, " ", &line_save);
+	monty.cur_oparg = _strtok_r(NULL, " ", &line_save);
 }
 
 /**

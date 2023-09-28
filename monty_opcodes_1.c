@@ -14,7 +14,7 @@ void push(stack_t **top, unsigned int lnum)
 	if (top == NULL)
 		return;
 	/* Check if the opcode argument is an integer */
-	if (!is_integer(monty.instruction->oparg))
+	if (!is_integer(monty.cur_oparg))
 	{
 		_dprintf(STDERR_FILENO, "L%d: usage: push integer\n", lnum);
 		monty.exit_status = EXIT_FAILURE;
@@ -28,7 +28,7 @@ void push(stack_t **top, unsigned int lnum)
 		monty.exit_status = EXIT_FAILURE;
 		return;
 	}
-	new_stack->n = _atoi(monty.instruction->oparg);
+	new_stack->n = _atoi(monty.cur_oparg);
 
 	/* Add the new stack node to the stack */
 	if (monty.mode == STACK_MODE)
@@ -107,7 +107,7 @@ void pop(stack_t **top, unsigned int lnum)
 	tmp->prev = tmp->next = NULL;
 	free(tmp);
 	if (*top == NULL) /* Update the last node pointer */
-		monty.last = NULL;
+		monty.last_node = NULL;
 	monty.exit_status = EXIT_SUCCESS;
 }
 
@@ -148,6 +148,6 @@ void swap(stack_t **top, unsigned int lnum)
 
 	*top = second_node;
 	if (stack_len == 2)
-		monty.last = top_node;
+		monty.last_node = top_node;
 	monty.exit_status = EXIT_SUCCESS;
 }

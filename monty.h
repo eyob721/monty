@@ -15,14 +15,14 @@
 #include "lib.h"
 
 /* FILE I/O CONSTANTS  */
-#define OPEN_FILE_ERR -1
+#define OPEN_ERR -1
 
 /* READ SYSTEM CALL CONSTANTS */
 #define READ_EOF 0
 #define READ_ERR -1
 
 /* BUFFER CONSTANTS */
-#define FILE_BUF_SIZE 512
+#define LINE_BUFF_SIZE 128
 
 /* MACRO TO CHECK IF X IS A VALID ASCII VALUE */
 #define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 127)
@@ -30,6 +30,9 @@
 /* FORMAT OF THE MONTY STACK */
 #define STACK_MODE 0
 #define QUEUE_MODE 1
+
+/* MACRO TO INITIALIZE MONTY DATA */
+#define INITIALIZE_MONTY {NULL, NULL, STACK_MODE, EXIT_SUCCESS, NULL}
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - DATA STRUCTURES                                   */
@@ -89,8 +92,9 @@ typedef struct queue_s
 /**
  * struct monty_s - a data structure used to hold necessary data for
  *                  opcode handlers, and memory cleanup.
- * @instruction: pointer to a node in the queue of instructions
- * @last: pointer to the last element in the stack
+ * @cur_opcode: current opcode
+ * @cur_oparg: current opcode argument
+ * @last_node: pointer to the last node in the stack
  * @mode: used to indicate the mode of the monty data (stack or queue)
  * @exit_status: used to hold the exit status of the monty program
  *
@@ -99,41 +103,34 @@ typedef struct queue_s
  */
 typedef struct monty_s
 {
-	queue_t *instruction;
-	stack_t *last;
+	char *cur_opcode;
+	char *cur_oparg;
 	int mode;
 	int exit_status;
+	stack_t *last_node;
 } monty_t;
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY UTILS - GENERAL                                     */
+/*                 MONTY - GENERAL UTILS                                     */
 /* ------------------------------------------------------------------------- */
-int read_file(int fd, char **buf, int *size);
+int read_line(int fd, char **line_buff, int *line_size);
 char *get_file_line(char *start, char **save_ptr);
 void remove_comment(char *line);
 int is_integer(char *str);
 
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY UTILS - QUEUE                                       */
-/* ------------------------------------------------------------------------- */
-void build_queue(queue_t **front, queue_t **rear, char *file_buf);
-queue_t *enqueue(queue_t **front, queue_t **rear,
-		char *opcode, char *oparg, unsigned int line_no);
-queue_t *dequeue(queue_t **front, queue_t **rear);
-
-
-/* ------------------------------------------------------------------------- */
-/*                 MONTY UTILS - MEMORY                                      */
+/*                 MONTY - CLEANUP UTILS                                     */
 /* ------------------------------------------------------------------------- */
 void free_stack(stack_t *top);
-void free_queue(queue_t *front);
 
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY UTILS - OPCODES                                     */
+/*                 MONTY - OPCODES UTILS                                     */
 /* ------------------------------------------------------------------------- */
 int get_stack_len(stack_t *top);
+void push_to_top(stack_t **top, stack_t *new_stack);
+void push_to_last(stack_t **top, stack_t *new_stack);
 
 
 /* ------------------------------------------------------------------------- */
@@ -168,15 +165,13 @@ void change_to_queue(stack_t **top, unsigned int lnum);
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - MAIN                                              */
 /* ------------------------------------------------------------------------- */
+void get_opcode_oparg(char *line_buf);
 void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line);
-void push_to_top(stack_t **top, stack_t *new_stack);
-void push_to_last(stack_t **top, stack_t *new_stack);
 
 
 /* ------------------------------------------------------------------------- */
 /*                 MONTY - GLOBAL                                            */
 /* ------------------------------------------------------------------------- */
-/* MONTY DATA */
 extern monty_t monty;
 
 /* ------------------------------------------------------------------------- */
