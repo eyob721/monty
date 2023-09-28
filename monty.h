@@ -69,27 +69,6 @@ typedef struct instruction_s
 } instruction_t;
 
 /**
- * struct queue_s - doubly linked list representation of a queue of
- *                  instructions, whcih contain opcodes and their arguments
- * @opcode: the opcode
- * @oparg: argument of the opcode
- * @line: the line number of the opcode instruction
- * @prev: pointer to the previous node in the queue
- * @next: pointer to the next node in the queue
- *
- * Description: this data structure is used to queue the instructions from
- *              each line of the file.
- */
-typedef struct queue_s
-{
-	char *opcode;
-	char *oparg;
-	unsigned int line;
-	struct queue_s *prev;
-	struct queue_s *next;
-} queue_t;
-
-/**
  * struct monty_s - a data structure used to hold necessary data for
  *                  opcode handlers, and memory cleanup.
  * @cur_opcode: current opcode
@@ -134,7 +113,7 @@ void push_to_last(stack_t **top, stack_t *new_stack);
 
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - OPCODES                                           */
+/*                 MONTY - OPCODE HANDLERS                                   */
 /* ------------------------------------------------------------------------- */
 /* 1 */
 void push(stack_t **top, unsigned int lnum);
@@ -170,7 +149,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line);
 
 
 /* ------------------------------------------------------------------------- */
-/*                 MONTY - GLOBAL                                            */
+/*                 MONTY - GLOBAL VAIRABLES                                  */
 /* ------------------------------------------------------------------------- */
 extern monty_t monty;
 

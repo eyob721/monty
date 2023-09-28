@@ -1,6 +1,5 @@
 #include "monty.h"
 
-
 /**
  * read_line - a function that reads a line from a file descriptor
  * @fd: file descriptor
@@ -41,44 +40,6 @@ int read_line(int fd, char **line_buff, int *line_size)
 	}
 	(*line_buff)[pos] = '\0';
 	return (total_read);
-}
-
-/**
- * get_file_line - a function that gets the next line token from a file buffer
- * @start: starting point of line token
- * @save_ptr: a double pointer to save the start of the next token
- *
- * Return: a line from the file buffer
- * Description:
- *     - In the case where there is an empty line, then the function
- *       returns an empty token.
- *     - The starting point for the next token (i.e. save_ptr), is determined
- *       in the _strtok_r function.
- */
-char *get_file_line(char *start, char **save_ptr)
-{
-	char *line = NULL;
-
-	if (save_ptr == NULL || (start == NULL && *save_ptr == NULL))
-		return (NULL);
-
-	/* Determine starting point */
-	start = start != NULL ? start : *save_ptr;
-
-	/* Skip initial spaces */
-	while (*start == ' ')
-		++start;
-
-	/* In case of an empty line, return an empty string */
-	if (*start == '\n')
-	{
-		*save_ptr = start + 1;
-		*start = '\0';
-		return (start);
-	}
-
-	line = _strtok_r(start, "\n", save_ptr);
-	return (line);
 }
 
 /**

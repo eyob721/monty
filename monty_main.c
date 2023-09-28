@@ -7,7 +7,7 @@ monty_t monty = INITIALIZE_MONTY;
  * @ac: argument count
  * @av: argument vector
  *
- * Return: 0 on success, or 1 on error
+ * Return: 0 on success, or 1 on failure
  */
 int main(int ac, char **av)
 {
@@ -32,7 +32,7 @@ int main(int ac, char **av)
 	{
 		++line_number;
 		get_opcode_oparg(line_buf);
-		if (monty.cur_opcode != NULL) /* A case of an empty line */
+		if (monty.cur_opcode != NULL) /* NULL is a case of an empty line */
 		{
 			execute_opcode = get_opcode_function(monty.cur_opcode);
 			if (execute_opcode == NULL)
@@ -69,7 +69,7 @@ void get_opcode_oparg(char *line_buf)
 	while (*line_ptr == ' ')
 		++line_ptr;
 
-	remove_comment(line_buf);
+	remove_comment(line_ptr);
 	monty.cur_opcode = _strtok_r(line_ptr, " ", &line_save);
 	monty.cur_oparg = _strtok_r(NULL, " ", &line_save);
 }
