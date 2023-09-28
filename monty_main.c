@@ -31,9 +31,9 @@ int main(int ac, char **av)
 	while (bytes_read != READ_EOF && monty.exit_status == EXIT_SUCCESS)
 	{
 		++line_number;
-		if (*line_buf != '\0') /* Empty line */
+		get_opcode_oparg(line_buf);
+		if (monty.cur_opcode != NULL) /* A case of an empty line */
 		{
-			get_opcode_oparg(line_buf);
 			execute_opcode = get_opcode_function(monty.cur_opcode);
 			if (execute_opcode == NULL)
 			{
