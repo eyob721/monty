@@ -89,3 +89,4 @@
 # ==========================================================
 < .     # Print tenth digit
 < .     # Print ones digit
+< +++++ +++++ . # Print new line
