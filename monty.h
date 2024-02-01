@@ -21,6 +21,9 @@
 /* BUFFER CONSTANTS */
 #define LINE_BUFF_SIZE 128
 
+/* MACRO TO CHECK IF X IS A VALID ASCII VALUE */
+#define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 127)
+
 /*}}}*/
 
 /* === MONTY - DATA STRUCTURES ========================================= {{{ */
@@ -105,6 +108,7 @@ void _mod(stack_t **top, unsigned int lnum);
 
 /* 3 */
 void nop(stack_t **top, unsigned int lnum);
+void pchar(stack_t **top, unsigned int lnum);
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */
