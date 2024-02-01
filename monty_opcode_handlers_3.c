@@ -61,3 +61,39 @@ void pstr(stack_t **top, unsigned int lnum)
 	_printf("\n");
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * rotl - handles the rotl opcode
+ * @top: double pointer to the top of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ * Description: rotl opcode rotates the stack or queue to the left
+ */
+void rotl(stack_t **top, unsigned int lnum)
+{
+	stack_t *top_node, *second_top;
+
+	(void)lnum;
+	if (*top == NULL) /* In the case of an empty stack or queue */
+		return;
+
+	/* Find the top two nodes */
+	top_node = *top;
+	second_top = top_node->prev;
+
+	/* Bring the top to the bottom */
+	if (top_node != monty.bottom) /* Only rotate stack with more than 1 node */
+	{
+		second_top->next = NULL;
+		top_node->prev = NULL;
+		top_node->next = monty.bottom;
+		monty.bottom->prev = top_node;
+	}
+
+	/* Update top and bottom pointers */
+	*top = second_top != NULL ? second_top : top_node;
+	monty.bottom = top_node;
+
+	monty.exit_status = EXIT_SUCCESS;
+}

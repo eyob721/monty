@@ -97,6 +97,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 		{"nop",	nop },
 		{"pchar",	pchar },
 		{"pstr",	pstr },
+		{"rotl",	rotl },
 		{NULL,   NULL}
 	};
 	int i = 0;
