@@ -13,6 +13,14 @@
 /* CUSTOM HEADERS */
 #include "lib.h"
 
+/* FILE I/O CONSTANTS  */
+#define OPEN_ERR -1
+#define READ_EOF 0
+#define READ_ERR -1
+
+/* BUFFER CONSTANTS */
+#define LINE_BUFF_SIZE 128
+
 /*}}}*/
 
 /* === MONTY - DATA STRUCTURES ========================================= {{{ */
@@ -50,6 +58,9 @@ typedef struct instruction_s
 /*}}}*/
 
 /* === MONTY - GENERAL UTILS =========================================== {{{ */
+
+int read_line(int fd, char **line_buff, int *line_size);
+
 /*}}}*/
 
 /* === MONTY - CLEANUP UTILS =========================================== {{{ */
