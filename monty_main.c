@@ -84,24 +84,24 @@ void get_opcode_oparg(char *line_buf)
 void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 {
 	instruction_t opcode_fun[] = {
-		{"push",	 push	 },
-		   {"pall",	pall	},
-		   {"pint",	pint	},
-		   {"pop",   pop	  },
-		{"swap",	 swap	 },
-		   {"add",   _add  },
-		   {"sub",   _sub  },
-		   {"div",   _div  },
-		{"mul",	_mul	},
-		   {"mod",   _mod  },
-		   {"nop",   nop	  },
-		   {"pchar", pchar },
-		{"pstr",	 pstr	 },
-		   {"rotl",	rotl	},
-		   {"rotr",	rotr	},
-		   {"stack", _stack},
+		{"push", push},
+		{"pall", pall},
+		{"pint", pint},
+		{"pop", pop},
+		{"swap", swap},
+		{"add", _add},
+		{"sub", _sub},
+		{"div", _div},
+		{"mul", _mul},
+		{"mod", _mod},
+		{"nop", nop},
+		{"pchar", pchar},
+		{"pstr", pstr},
+		{"rotl", rotl},
+		{"rotr", rotr},
+		{"stack", _stack},
 		{"queue", _queue},
-		   {NULL,	  NULL  }
+		{NULL, NULL}
 	   };
 	int i = 0;
 
