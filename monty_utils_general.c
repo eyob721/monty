@@ -42,3 +42,48 @@ int read_line(int fd, char **line_buff, int *line_size)
 	(*line_buff)[pos] = '\0'; /* terminate new line character */
 	return (total_read);
 }
+
+/**
+ * is_integer - checks if a given string is an integer in string format
+ * @str: given string
+ *
+ * Return: 1 if the string is an integer, 0 otherwise
+ */
+int is_integer(char *str)
+{
+	int i = 0, minus_sign_flag = 0;
+
+	if (str == NULL)
+		return (0);
+	for (i = 0; str[i] != '\0'; ++i)
+	{
+		/* Allow the first minus sign encountered */
+		if (str[i] == '-' && !minus_sign_flag)
+		{
+			minus_sign_flag = 1;
+			continue;
+		}
+		if (!_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
+/**
+ * free_stack - frees the stack_t doubly linked list
+ * @top: pointer to the top of the stack
+ *
+ * Return: void
+ */
+void free_stack(stack_t *top)
+{
+	stack_t *tmp;
+
+	while (top != NULL)
+	{
+		tmp = top;
+		top = top->prev;
+		tmp->prev = tmp->next = NULL;
+		free(tmp);
+	}
+}

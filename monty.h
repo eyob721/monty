@@ -52,7 +52,7 @@ typedef struct stack_s
 typedef struct instruction_s
 {
 	char *opcode;
-	void (*f)(stack_t **stack, unsigned int line_number);
+	void (*f)(stack_t **top, unsigned int line_number);
 } instruction_t;
 
 /**
@@ -60,7 +60,7 @@ typedef struct instruction_s
  *                  opcode handlers, and memory cleanup.
  * @cur_opcode: current opcode
  * @cur_oparg: current opcode argument
- * @last_node: pointer to the last node in the stack
+ * @bottom: pointer to the bottom (last) node in the stack
  * @exit_status: used to hold the exit status of the monty program
  *
  * Description: this data structure is used to share data among the
@@ -71,33 +71,35 @@ typedef struct monty_s
 	char *cur_opcode;
 	char *cur_oparg;
 	int exit_status;
-	stack_t *last_node;
+	stack_t *bottom;
 } monty_t;
 
 /*}}}*/
 
 /* === MONTY - GENERAL UTILS =========================================== {{{ */
-
 int read_line(int fd, char **line_buff, int *line_size);
+int is_integer(char *str);
+void free_stack(stack_t *top);
 
-/*}}}*/
-
-/* === MONTY - CLEANUP UTILS =========================================== {{{ */
 /*}}}*/
 
 /* === MONTY - OPCODES UTILS =========================================== {{{ */
+void push_to_top(stack_t **top, stack_t *new_stack);
 /*}}}*/
 
 /* === MONTY - OPCODE HANDLERS ========================================= {{{ */
+/* 1 */
+void push(stack_t **top, unsigned int lnum);
+void pall(stack_t **top, unsigned int lnum);
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */
-
 void get_opcode_oparg(char *line_buf);
-
+void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line);
 /*}}}*/
 
 /* === MONTY - GLOBAL VAIRABLES ======================================== {{{ */
+extern monty_t monty;
 /*}}}*/
 
 #endif
