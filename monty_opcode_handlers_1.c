@@ -60,7 +60,7 @@ void pint(stack_t **top, unsigned int lnum)
 {
 	if (*top == NULL) /* In the case of an empty stack or queue */
 	{
-		_dprintf(STDERR_FILENO, "L%d: can't pint, stack is empty\n", lnum);
+		_dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", lnum);
 		monty.exit_status = EXIT_FAILURE;
 		return;
 	}
