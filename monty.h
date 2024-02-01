@@ -24,6 +24,9 @@
 /* MACRO TO CHECK IF X IS A VALID ASCII VALUE */
 #define IS_VALID_ASCII_VALUE(x) ((x) >= 0 && (x) <= 127)
 
+/* MODE OF THE MONTY STACK */
+#define STACK_MODE 0
+#define QUEUE_MODE 1
 /*}}}*/
 
 /* === MONTY - DATA STRUCTURES ========================================= {{{ */
@@ -63,8 +66,9 @@ typedef struct instruction_s
  *                  opcode handlers, and memory cleanup.
  * @cur_opcode: current opcode
  * @cur_oparg: current opcode argument
- * @bottom: pointer to the bottom (last) node in the stack
  * @exit_status: used to hold the exit status of the monty program
+ * @mode: used to indicate the mode of the monty data (stack or queue)
+ * @bottom: pointer to the bottom (last) node in the stack
  *
  * Description: this data structure is used to share data among the
  *              main function and opcode handler functions.
@@ -74,6 +78,7 @@ typedef struct monty_s
 	char *cur_opcode;
 	char *cur_oparg;
 	int exit_status;
+	int mode;
 	stack_t *bottom;
 } monty_t;
 
@@ -88,6 +93,7 @@ void remove_comment_part(char *line);
 
 /* === MONTY - OPCODES UTILS =========================================== {{{ */
 void push_to_top(stack_t **top, stack_t *new_stack);
+void push_to_last(stack_t **top, stack_t *new_node);
 int get_stack_len(stack_t *top);
 /*}}}*/
 
@@ -112,6 +118,11 @@ void pchar(stack_t **top, unsigned int lnum);
 void pstr(stack_t **top, unsigned int lnum);
 void rotl(stack_t **top, unsigned int lnum);
 void rotr(stack_t **top, unsigned int lnum);
+
+/* 4 */
+void _stack(stack_t **top, unsigned int lnum);
+void _queue(stack_t **top, unsigned int lnum);
+
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */

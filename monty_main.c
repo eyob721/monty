@@ -1,6 +1,6 @@
 #include "monty.h"
 
-monty_t monty = {NULL, NULL, EXIT_SUCCESS, NULL};
+monty_t monty = {NULL, NULL, EXIT_SUCCESS, STACK_MODE, NULL};
 
 /**
  * main - the monty program
@@ -84,23 +84,25 @@ void get_opcode_oparg(char *line_buf)
 void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 {
 	instruction_t opcode_fun[] = {
-		{"push", push},
-		{"pall", pall},
-		{"pint", pint},
-		{"pop",	pop },
-		{"swap", swap},
-		{"add",	_add},
-		{"sub",	_sub},
-		{"div",	_div},
-		{"mul",	_mul},
-		{"mod",	_mod},
-		{"nop",	nop },
-		{"pchar",	pchar },
-		{"pstr",	pstr },
-		{"rotl",	rotl },
-		{"rotr",	rotr },
-		{NULL,   NULL}
-	};
+		{"push",	 push	 },
+		   {"pall",	pall	},
+		   {"pint",	pint	},
+		   {"pop",   pop	  },
+		{"swap",	 swap	 },
+		   {"add",   _add  },
+		   {"sub",   _sub  },
+		   {"div",   _div  },
+		{"mul",	_mul	},
+		   {"mod",   _mod  },
+		   {"nop",   nop	  },
+		   {"pchar", pchar },
+		{"pstr",	 pstr	 },
+		   {"rotl",	rotl	},
+		   {"rotr",	rotr	},
+		   {"stack", _stack},
+		{"queue", _queue},
+		   {NULL,	  NULL  }
+	   };
 	int i = 0;
 
 	while (opcode_fun[i].opcode != NULL)

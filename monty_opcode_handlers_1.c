@@ -28,7 +28,11 @@ void push(stack_t **top, unsigned int lnum)
 	}
 	/* Insert the new node into the stack */
 	new_node->n = _atoi(monty.cur_oparg);
-	push_to_top(top, new_node);
+	if (monty.mode == STACK_MODE)
+		push_to_top(top, new_node);
+	else
+		push_to_last(top, new_node);
+
 	monty.exit_status = EXIT_SUCCESS;
 }
 
