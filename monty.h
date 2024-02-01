@@ -95,6 +95,13 @@ void pall(stack_t **top, unsigned int lnum);
 void pint(stack_t **top, unsigned int lnum);
 void pop(stack_t **top, unsigned int lnum);
 void swap(stack_t **top, unsigned int lnum);
+
+/* 2 */
+void _add(stack_t **top, unsigned int lnum);
+void _sub(stack_t **top, unsigned int lnum);
+void _mul(stack_t **top, unsigned int lnum);
+void _div(stack_t **top, unsigned int lnum);
+void _mod(stack_t **top, unsigned int lnum);
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */
