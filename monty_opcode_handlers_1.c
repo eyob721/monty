@@ -67,3 +67,38 @@ void pint(stack_t **top, unsigned int lnum)
 	_printf("%d\n", (*top)->n);
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * pop - handles the pop opcode
+ * @top: double pointer to the top of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void pop(stack_t **top, unsigned int lnum)
+{
+	stack_t *tmp;
+
+	if (*top == NULL) /* In the case of an empty stack or queue */
+	{
+		_dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", lnum);
+		monty.exit_status = EXIT_FAILURE;
+		return;
+	}
+
+	/* Remove top node */
+	tmp = *top;
+	*top = (*top)->prev;
+	if (*top != NULL)
+		(*top)->next = NULL;
+
+	/* Delete previously top node */
+	tmp->prev = tmp->next = NULL;
+	free(tmp);
+
+	/* Update bottom pointer */
+	if (*top == NULL)
+		monty.bottom = NULL;
+
+	monty.exit_status = EXIT_SUCCESS;
+}
