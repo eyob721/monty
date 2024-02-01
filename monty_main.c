@@ -84,6 +84,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 	instruction_t opcode_fun[] = {
 		{"push", push},
 		{"pall", pall},
+		{"pint", pint},
 		{NULL,   NULL}
 	};
 	int i = 0;

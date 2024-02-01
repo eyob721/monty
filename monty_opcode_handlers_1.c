@@ -48,3 +48,22 @@ void pall(stack_t **top, unsigned int lnum)
 		_printf("%d\n", ptr->n);
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * pint - handles the pint opcode
+ * @top: double pointer to the top of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void pint(stack_t **top, unsigned int lnum)
+{
+	if (*top == NULL) /* In the case of an empty stack or queue */
+	{
+		_dprintf(STDERR_FILENO, "L%d: can't pint, stack is empty\n", lnum);
+		monty.exit_status = EXIT_FAILURE;
+		return;
+	}
+	_printf("%d\n", (*top)->n);
+	monty.exit_status = EXIT_SUCCESS;
+}
