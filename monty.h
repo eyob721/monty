@@ -55,6 +55,25 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct monty_s - a data structure used to hold necessary data for
+ *                  opcode handlers, and memory cleanup.
+ * @cur_opcode: current opcode
+ * @cur_oparg: current opcode argument
+ * @last_node: pointer to the last node in the stack
+ * @exit_status: used to hold the exit status of the monty program
+ *
+ * Description: this data structure is used to share data among the
+ *              main function and opcode handler functions.
+ */
+typedef struct monty_s
+{
+	char *cur_opcode;
+	char *cur_oparg;
+	int exit_status;
+	stack_t *last_node;
+} monty_t;
+
 /*}}}*/
 
 /* === MONTY - GENERAL UTILS =========================================== {{{ */
@@ -73,6 +92,9 @@ int read_line(int fd, char **line_buff, int *line_size);
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */
+
+void get_opcode_oparg(char *line_buf);
+
 /*}}}*/
 
 /* === MONTY - GLOBAL VAIRABLES ======================================== {{{ */
