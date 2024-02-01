@@ -92,6 +92,7 @@ void (*get_opcode_function(char *opcode))(stack_t **top, unsigned int line)
 		{"div",	_div},
 		{"mul",	_mul},
 		{"mod",	_mod},
+		{"nop",	nop },
 		{NULL,   NULL}
 	};
 	int i = 0;

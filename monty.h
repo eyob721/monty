@@ -102,6 +102,9 @@ void _sub(stack_t **top, unsigned int lnum);
 void _mul(stack_t **top, unsigned int lnum);
 void _div(stack_t **top, unsigned int lnum);
 void _mod(stack_t **top, unsigned int lnum);
+
+/* 3 */
+void nop(stack_t **top, unsigned int lnum);
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */
