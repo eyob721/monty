@@ -85,6 +85,7 @@ void free_stack(stack_t *top);
 
 /* === MONTY - OPCODES UTILS =========================================== {{{ */
 void push_to_top(stack_t **top, stack_t *new_stack);
+int get_stack_len(stack_t *top);
 /*}}}*/
 
 /* === MONTY - OPCODE HANDLERS ========================================= {{{ */
@@ -93,6 +94,7 @@ void push(stack_t **top, unsigned int lnum);
 void pall(stack_t **top, unsigned int lnum);
 void pint(stack_t **top, unsigned int lnum);
 void pop(stack_t **top, unsigned int lnum);
+void swap(stack_t **top, unsigned int lnum);
 /*}}}*/
 
 /* === MONTY - MAIN FUNCTIONS ========================================== {{{ */

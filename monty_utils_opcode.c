@@ -21,3 +21,21 @@ void push_to_top(stack_t **top, stack_t *new_node)
 
 	*top = new_node;
 }
+
+/**
+ * get_stack_len - returns the length of the stack or queue
+ * @top: pointer to the top of the stack
+ *
+ * Return: length of the stack (i.e. number of elements in the stack)
+ */
+int get_stack_len(stack_t *top)
+{
+	int stack_len = 0;
+
+	while (top != NULL)
+	{
+		++stack_len;
+		top = top->prev;
+	}
+	return (stack_len);
+}
