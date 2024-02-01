@@ -65,6 +65,8 @@ void get_opcode_oparg(char *line_buf)
 	if (line_buf == NULL)
 		return;
 
+	remove_comment_part(line_ptr);
+
 	/* Skip initial spaces */
 	while (*line_ptr == ' ')
 		++line_ptr;

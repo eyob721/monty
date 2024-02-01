@@ -80,7 +80,7 @@ typedef struct monty_s
 int read_line(int fd, char **line_buff, int *line_size);
 int is_integer(char *str);
 void free_stack(stack_t *top);
-
+void remove_comment_part(char *line);
 /*}}}*/
 
 /* === MONTY - OPCODES UTILS =========================================== {{{ */

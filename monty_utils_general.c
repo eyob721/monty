@@ -70,6 +70,21 @@ int is_integer(char *str)
 }
 
 /**
+ * remove_comment_part - removes parts of the line that are after a comment
+ * @line: a line in the file buffer
+ *
+ * Return: void
+ */
+void remove_comment_part(char *line)
+{
+	char *comment_ptr;
+
+	comment_ptr = _strchr(line, '#');
+	if (comment_ptr != NULL)
+		*comment_ptr = '\0';
+}
+
+/**
  * free_stack - frees the stack_t doubly linked list
  * @top: pointer to the top of the stack
  *
