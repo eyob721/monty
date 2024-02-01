@@ -97,3 +97,38 @@ void rotl(stack_t **top, unsigned int lnum)
 
 	monty.exit_status = EXIT_SUCCESS;
 }
+
+/**
+ * rotr - handles the rotr opcode
+ * @top: double pointer to the top of the stack
+ * @lnum: current line number in the file
+ *
+ * Return: void
+ */
+void rotr(stack_t **top, unsigned int lnum)
+{
+	stack_t *top_node, *second_last, *last_node;
+
+	(void)lnum;
+	if (*top == NULL) /* In the case of an empty stack or queue */
+		return;
+
+	/* Find the top node and the second last node */
+	top_node = *top;
+	last_node = monty.bottom;
+	second_last = last_node->next;
+
+	/* Bring the bottom to the top */
+	if (top_node != monty.bottom) /* Only rotate stack with more than 1 node */
+	{
+		last_node->prev = top_node;
+		last_node->next = NULL;
+		top_node->next = last_node;
+		second_last->prev = NULL;
+	}
+	/* Update top and bottom pointers */
+	*top = last_node;
+	monty.bottom = second_last;
+
+	monty.exit_status = EXIT_SUCCESS;
+}
